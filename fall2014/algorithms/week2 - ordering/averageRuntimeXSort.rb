@@ -66,32 +66,19 @@ end
 
 def estimateAverageRuntime(xSort)
   averages = []
-  (1..100).each do |n|
+  (1000..10000).step(100) do |n|
     total = 0
     
-    3.times do |i|
+    30.times do |i|
       randomList = generateRandomPermutation(n)
       send(xSort, randomList)
       total += @comparisonsCounter
     end
-    averageComparisons = total.to_f/3
+    averageComparisons = total.to_f/30
     averages << [ n, averageComparisons ]
+    printf "."
   end
   averages
-end
-
-def printAverageRuntimeTable(xSort)
-  results = estimateAverageRuntime(xSort)
-  puts xSort
-  puts "   n           av       av/n      av/n^2  av/nlogn    "
-
-  results.each do |result|
-    n = result[0]
-    average = result[1].to_f
-    printf "%7d   %10.2f  %8.4f  %8.4f  %8.5f" %
-     [ n, average, average/n, average/(n*n), average/(n*Math.log2(n))]
-    puts " " 
-  end 
 end
 
 def prepareResultsToBeExported(results)
@@ -122,6 +109,7 @@ def mainCall
       xSortResults = prepareResultsToBeExported(xSortAverages)
       exportCsv(xSortResults, xSort.to_s)
     end
+    p "Done"
   rescue
     p "Error"
   end
