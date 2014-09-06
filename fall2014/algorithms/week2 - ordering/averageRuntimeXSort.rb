@@ -64,9 +64,8 @@ def insertionSort(list)
   list
 end
 
-
 def estimateAverageRuntime(xSort)
-  results = []
+  averages = []
   (1..100).each do |n|
     total = 0
     
@@ -76,15 +75,15 @@ def estimateAverageRuntime(xSort)
       total += @comparisonsCounter
     end
     averageComparisons = total.to_f/3
-    results << [ n, averageComparisons ]
+    averages << [ n, averageComparisons ]
   end
-  results
+  averages
 end
 
 def printAverageRuntimeTable(xSort)
   results = estimateAverageRuntime(xSort)
   puts xSort
-  puts "   n       av     av/n    av/n^2    av/nlogn    "
+  puts "   n           av       av/n      av/n^2  av/nlogn    "
 
   results.each do |result|
     n = result[0]
@@ -95,4 +94,37 @@ def printAverageRuntimeTable(xSort)
   end 
 end
 
-printAverageRuntimeTable("bSort")
+def prepareResultsToBeExported(results)
+  preparedResults = []
+  results.each do |result|
+    n = result[0]
+    average = result[1].to_f
+    preparedResults <<  [ n, average, average/n, average/(n*n), average/(n*Math.log2(n))]
+  end
+  preparedResults
+end
+
+def exportCsv(preparedResults, fileName)
+  require 'csv'
+  
+  CSV.open("#{fileName}.csv", "w") do |csv|
+    csv << ["n", "av", "av/n", "av/n^2", "av/nlogn"]
+    preparedResults.each do | result |
+      csv << result
+    end
+  end
+end
+
+def mainCall 
+  begin
+    ["bSort", "insertionSort"].each do |xSort|
+      xSortAverages = estimateAverageRuntime(xSort)
+      xSortResults = prepareResultsToBeExported(xSortAverages)
+      exportCsv(xSortResults, xSort.to_s)
+    end
+  rescue
+    p "Error"
+  end
+end
+
+mainCall()
