@@ -20,7 +20,7 @@ def generateRandomPermutation(n)
   sequence
 end
 
-def bSort( list )
+def bSort(list)
   
   size = list.length
   
@@ -44,4 +44,18 @@ def bSort( list )
   list
 end
 
-bSort([5, 9,  4, 8, 2, 3, 1, 0])
+def insertionSort(list)
+  size = list.length
+  
+  1.upto(size - 1) do |i|
+    temp = list[i]
+    j = i - 1
+    
+    while j >= 0 && list[j] > temp do
+      list[j+1] = list[j]
+      j -= 1
+    end 
+    list[j + 1] = temp
+  end
+  p list
+end
