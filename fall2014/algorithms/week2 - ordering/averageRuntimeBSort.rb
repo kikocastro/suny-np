@@ -28,19 +28,20 @@ def bSort( list )
     pass = 1
     swap = true
     
-    while (pass <= size - 2 && swap) do
+    while (pass <= size - 1 && swap) do
       swap = false
       
       0.upto(size - 1 - pass) do |i|
         if list[i] > list[i+1] 
-          list[i], list[i+1] = list[i], list[i+1]
+          list.swap!(i, i+1)
           swap = true
         end
       end
+      
       pass += 1
     end
   end
-  p list
+  list
 end
 
-bSort([5, 4, 2, 3, 1, 0])
+bSort([5, 9,  4, 8, 2, 3, 1, 0])
