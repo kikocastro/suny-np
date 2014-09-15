@@ -22,10 +22,11 @@ end
 
 def mergeSort(list, left, right)
   if left < right
+    p list
     middle = (left + right)/2
     mergeSort(list, left, middle)
     mergeSort(list, middle + 1, right)
-    merge(list, left, right)
+    return merge(list, left, right)
   end
 end
 
@@ -34,11 +35,10 @@ def merge(list, left, right)
   @comparisonsCounter = 0
 
   middle = (left + right)/2
-  # p middle
   i = left
   j = middle + 1
   k = 0
-
+  # p middle
   # puts "i: #{i} j: #{j}" 
 
   while (i <= middle && j <= right) do
@@ -53,7 +53,7 @@ def merge(list, left, right)
     k += 1
     @comparisonsCounter += 1
   end
-    p temp
+    # p temp
 
   if i > middle
     j.upto(right) do |p|
@@ -61,12 +61,12 @@ def merge(list, left, right)
       k += 1
     end
   else
-    j.upto(middle) do |p|
+    i.upto(middle) do |p|
       temp[k] = list[p]
       k +=1
     end
   end
-  n = right - left + 1
+  n = (right - left + 1)
   1.upto(n) { |p| list[left + p - 1] = temp[p]  }
 
   list
