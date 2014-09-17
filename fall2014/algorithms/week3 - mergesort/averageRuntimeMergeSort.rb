@@ -23,35 +23,34 @@ def mergeSort(list)
   return list if list.size <= 1
   middle = list.size / 2
   left  = list[0, middle]
-  right = list[middle, list.size-middle]
+  right = list[middle, list.size - middle]
   merge(mergeSort(left), mergeSort(right))
 end
  
 def merge(left, right)
   temp = []
-  @comparisonsCounter = 0
   until left.empty? or right.empty?
-    @comparisonsCounter += 1
     if left.first <= right.first
       temp << left.shift
     else
       temp << right.shift
     end
+    @comparisonsCounter += 1
   end
   temp.concat(left).concat(right)
 end
 
 def estimateAverageRuntime(xSort)
   averages = []
-  (1000..20000).step(100) do |n|
+  (1000..10000).step(100) do |n|
     total = 0
-    
     50.times do |i|
+      @comparisonsCounter = 0
       randomList = generateRandomPermutation(n)
       send(xSort, randomList)
       total += @comparisonsCounter
     end
-    averageComparisons = total.to_f/30
+    averageComparisons = total.to_f/50
     averages << [ n, averageComparisons ]
     p n
   end
